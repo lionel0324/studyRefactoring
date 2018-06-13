@@ -38,9 +38,6 @@ class Customer
         foreach ($rentals as $rental) {
             $movie = $rental->getMovie();
 
-            // レンタル料気を取得
-            $this_amount = $rental->getCharge();
-
             // ポイント加算
             $frequent_renter_points++;
 
@@ -48,8 +45,8 @@ class Customer
             if ($movie->getPriceCode() == $movie::NEW_RELEASE and $rental->getDaysRented() > 1) {
                 $frequent_renter_points++;
             }
-            $result .= sprintf('%s %s yen ' . "\n", $movie->getTitle(), $this_amount);
-            $total_amount += $this_amount;
+            $result .= sprintf('%s %s yen ' . "\n", $movie->getTitle(), $rental->getCharge());
+            $total_amount += $rental->getCharge();
         }
         // フッタの追加
         $result .= sprintf('Amount owed is %s yen ' . "\n", $total_amount);
