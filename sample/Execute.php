@@ -1,15 +1,17 @@
 <?php
 
-require './lib/Movie.php';
+require './lib/movie/Children.php';
+require './lib/movie/NewRelease.php';
+require './lib/movie/Regular.php';
 require './lib/Rental.php';
 require './lib/Customer.php';
 
 $customer = new Customer('RentalUser');
 
-$movie1 = new Movie('Hoge', 0);
+$movie1 = new NewRelease('Hoge');
 $rental1 = new Rental($movie1, 6);
 
-$movie2 = new Movie('Foo', 1);
+$movie2 = new Regular('Foo');
 $rental2 = new Rental($movie2, 3);
 
 $customer->addRental($rental1);
