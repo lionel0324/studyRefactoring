@@ -29,24 +29,46 @@ class Customer
      */
     public function statement()
     {
-        $total_amount = 0; // 合計金額
-        $frequent_renter_points = 0; // レンタルポイント
-        $rentals = $this->_rentals;
         $result = sprintf('Rental Record For %s ' . "\n", $this->getName());
 
         // 金額を計算
-        foreach ($rentals as $rental) {
+        foreach ($this->_rentals as $rental) {
             $movie = $rental->getMovie();
 
-            // ポイント加算
-            $frequent_renter_points += $rental->getFrequentRenterPoints();
-
             $result .= sprintf('%s %s yen ' . "\n", $movie->getTitle(), $rental->getCharge());
-            $total_amount += $rental->getCharge();
         }
         // フッタの追加
-        $result .= sprintf('Amount owed is %s yen ' . "\n", $total_amount);
-        $result .= sprintf('rental point %s ', $frequent_renter_points);
+        $result .= sprintf('Amount owed is %s yen ' . "\n", $this->getTotalCharge());
+        $result .= sprintf('rental point %s ', $this->getTotalFrequentRenterPoints());
         return $result;
+    }
+
+    /**
+     * 合計金額を返す
+     *
+     * @return float
+     */
+    private function getTotalCharge()
+    {
+        $result = 0;
+        foreach ($this->_rentals as $rental) {
+            $result += $rental->getCharge();
+        }
+        return $result;
+    }
+
+    /**
+     * 合計ポイントを返す
+     *
+     * @return float
+     */
+    private function getTotalFrequentRenterPoints()
+    {
+        $result = 0;
+        foreach ($this->_rentals as $rental) {
+            $result += $rental->getFrequentRenterPoints();
+        }
+        return $result;
+
     }
 }
