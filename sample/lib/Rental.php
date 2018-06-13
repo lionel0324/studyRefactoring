@@ -30,30 +30,7 @@ class Rental
      */
     public function getCharge()
     {
-        $movie = $this->getMovie();
-
-        $return = 0;
-        switch ($movie->getPriceCode()) {
-            case $movie::REGULAR:
-                $return += 2;
-                if ($this->getDaysRented() > 2) {
-                    $return += ($this->getDaysRented() - 2) * 1.5;
-                }
-                break;
-            case $movie::NEW_RELEASE:
-                $return += $this->getDaysRented() * 3;
-
-                break;
-
-            case $movie::CHILDRENS:
-                $return += 1.5;
-                if ($rethisntal->getDaysRented() > 3) {
-                    $return += ($this->getDaysRented() - 3) * 1.5;
-                }
-
-                break;
-        }
-        return $return;
+        return $this->getMovie()->getCharge($this->_days_rented);
     }
 
     /**
@@ -63,14 +40,6 @@ class Rental
      */
     public function getFrequentRenterPoints()
     {
-        $movie = $this->getMovie();
-        $is_new_release = $movie->getPriceCode() == $movie::NEW_RELEASE;
-
-        if ($is_new_release and $this->getDaysRented() > 1) {
-            return 2;
-        } else {
-            return 1;
-        }
-
+        return $this->getMovie()->getFrequentRenterPoints($this->_days_rented);
     }
 }
