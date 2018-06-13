@@ -39,12 +39,8 @@ class Customer
             $movie = $rental->getMovie();
 
             // ポイント加算
-            $frequent_renter_points++;
+            $frequent_renter_points += $rental->getFrequentRenterPoints();
 
-            // 新作を2日以上借りたらボーナスポイント
-            if ($movie->getPriceCode() == $movie::NEW_RELEASE and $rental->getDaysRented() > 1) {
-                $frequent_renter_points++;
-            }
             $result .= sprintf('%s %s yen ' . "\n", $movie->getTitle(), $rental->getCharge());
             $total_amount += $rental->getCharge();
         }

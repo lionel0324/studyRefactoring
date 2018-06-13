@@ -55,4 +55,22 @@ class Rental
         }
         return $return;
     }
+
+    /**
+     * レンタルポイントを返す
+     *
+     * @return int
+     */
+    public function getFrequentRenterPoints()
+    {
+        $movie = $this->getMovie();
+        $is_new_release = $movie->getPriceCode() == $movie::NEW_RELEASE;
+
+        if ($is_new_release and $this->getDaysRented() > 1) {
+            return 2;
+        } else {
+            return 1;
+        }
+
+    }
 }
