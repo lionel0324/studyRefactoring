@@ -38,27 +38,7 @@ class Customer
         foreach ($rentals as $rental) {
             $movie = $rental->getMovie();
 
-            $this_amount = 0;
-            switch ($movie->getPriceCode()) {
-                case $movie::REGULAR:
-                    $this_amount += 2;
-                    if ($rental->getDaysRented() > 2) {
-                        $this_amount += ($rental->getDaysRented() - 2) * 1.5;
-                    }
-                    break;
-                case $movie::NEW_RELEASE:
-                    $this_amount += $rental->getDaysRented() * 3;
-
-                    break;
-
-                case $movie::CHILDRENS:
-                    $this_amount += 1.5;
-                    if ($rental->getDaysRented() > 3) {
-                        $this_amount += ($rental->getDaysRented() - 3) * 1.5;
-                    }
-
-                    break;
-            }
+            $this_amount = $this->amountFor($rental);
 
             // ポイント加算
             $frequent_renter_points++;
@@ -74,5 +54,32 @@ class Customer
         $result .= sprintf('Amount owed is %s yen ' . "\n", $total_amount);
         $result .= sprintf('rental point %s ', $frequent_renter_points);
         return $result;
+    }
+
+    private function amountFor(Rental $rental)
+    {
+        $movie = $rental->getMovie();
+
+        $this_amount = 0;
+        switch ($movie->getPriceCode()) {
+            case $movie::REGULAR:
+                $this_amount += 2;
+                if ($rental->getDaysRented() > 2) {
+                    $this_amount += ($rental->getDaysRented() - 2) * 1.5;
+                }
+                break;
+            case $movie::NEW_RELEASE:
+                $this_amount += $rental->getDaysRented() * 3;
+
+                break;
+
+            case $movie::CHILDRENS:
+                $this_amount += 1.5;
+                if ($rental->getDaysRented() > 3) {
+                    $this_amount += ($rental->getDaysRented() - 3) * 1.5;
+                }
+
+                break;
+        }
     }
 }
