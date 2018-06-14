@@ -3,6 +3,9 @@
 require './lib/Movie.php';
 require './lib/Rental.php';
 require './lib/Customer.php';
+require './lib/ChildrenPrice.php';
+require './lib/NewReleasePrice.php';
+require './lib/RegularPrice.php';
 
 $customer = new Customer('RentalUser');
 
